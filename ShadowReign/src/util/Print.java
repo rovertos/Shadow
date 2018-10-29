@@ -18,7 +18,7 @@ public class Print {
 
 		int rowIndex = rowmin;		
 		
-		System.out.println(r("=",5+(colmax-colmin)*6));
+		System.out.println(r("=",6+(colmax-colmin)*4+1));
 		
 		for (int row=0; row<array.length; row++){
 			
@@ -54,7 +54,7 @@ public class Print {
 			System.out.print(s(i,4));
 		}
 		System.out.println("");
-		System.out.println(r("=",5+(colmax-colmin)*6));
+		System.out.println(r("=",6+(colmax-colmin)*4+1));
 		
 	}
 	
