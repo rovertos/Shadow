@@ -1,12 +1,13 @@
 package model.map;
 
 import model.map.ExpandableLine.LineEntity;
+import util.Print;
 
 public class Test {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		
 		Hive h = new Hive();
 		
 		/*h.grow(Compass.SE,true);
@@ -21,27 +22,11 @@ public class Test {
 		h.grow(Compass.S,true);
 		h.grow(Compass.NE,true);
 		h.grow(Compass.SE,true);
-				
-		System.out.println("====================");
-		
-		PositionedEntity[][] array = h.getAsArray();
-		
-		for (int row=0; row<array.length; row++){
-			for (int col=0; col<array[row].length; col++){				
-				String p = array[row][col] != null ? "*" : "-";
-				System.out.print(" " + p);
-			}
-			System.out.println("");
-		}
-		
-		System.out.println("====================");
 		
 		h.connectAll();
 		
-		h.print();	
-		
-		System.out.println("====================");
-		
+		Print.hive(h);
+				
 		for (ExpandableLine eline: h.rowlist){			
 			System.out.print("row " + eline.index + ": ");			
 			for (LineEntity le: eline.entitylist){				

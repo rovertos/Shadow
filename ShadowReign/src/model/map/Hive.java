@@ -14,9 +14,9 @@ public class Hive extends ExpandableMap {
 	public static int[][] diffsDoubleHeight = {{-2,0},{-1,1},{1,1},{2,0},{1,-1},{-1,-1}};
 	//public static int[][] diffsCubic = {{-1,0},{-1,1},{0,1},{1,0},{1,-1},{0,-1}};
 	
-	protected ArrayList<ExpandableLine> diagsnwse = new ArrayList<ExpandableLine>();
+	public ArrayList<ExpandableLine> diagsnwse = new ArrayList<ExpandableLine>();
 	
-	protected ArrayList<ExpandableLine> diagsnesw = new ArrayList<ExpandableLine>();	
+	public ArrayList<ExpandableLine> diagsnesw = new ArrayList<ExpandableLine>();	
 	
 	public Hive(){
 		
@@ -100,38 +100,6 @@ public class Hive extends ExpandableMap {
 			}			
 		}		
 		
-	}
-		
-	public void print(){
-		
-		int colmin = getMostDistantIndex(Compass.W);		
-		int colmax = getMostDistantIndex(Compass.E);		
-		
-		boolean colmineven = colmin % 2 == 0;
-		
-		String empty = "-----";
-		
-		for (ExpandableLine row: rowlist){
-			
-			boolean thisroweven = row.index % 2 == 0;
-			
-			int start = 0;
-			
-			if (thisroweven){
-				start = colmineven ? colmin : colmin - 1;
-			} else {		
-				System.out.print("   ");
-				start = colmineven ? colmin + 1 : colmin;
-			}
-			
-			for (int i=start; i<=colmax; i+=2){						
-				String s = row.get(i) != null ? ""+(Hex)row.get(i) : empty;
-				System.out.print(s + "   ");
-			}
-			System.out.println("");			
-			
-		}
-				
 	}
 	
 }

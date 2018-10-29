@@ -5,9 +5,9 @@ import java.util.Collections;
 
 public class ExpandableMap {
 
-	protected ArrayList<ExpandableLine> rowlist = new ArrayList<ExpandableLine>();
+	public ArrayList<ExpandableLine> rowlist = new ArrayList<ExpandableLine>();
 	
-	protected ArrayList<ExpandableLine> collist = new ArrayList<ExpandableLine>();
+	public ArrayList<ExpandableLine> collist = new ArrayList<ExpandableLine>();
 	
 	public void put(PositionedEntity pe){
 		
