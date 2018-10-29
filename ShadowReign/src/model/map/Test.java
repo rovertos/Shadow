@@ -1,5 +1,7 @@
 package model.map;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import model.map.ExpandableLine.LineEntity;
 import util.Print;
 
@@ -16,12 +18,17 @@ public class Test {
 		h.grow(Compass.NE,true);
 		h.grow(Compass.SE,true);*/
 		
-		h.grow(Compass.NW,true);
+		for (int i=0; i<40; i++){			
+			int randomNum = ThreadLocalRandom.current().nextInt(0, 6);
+			h.grow(Hex.sides.get(randomNum),true);			
+		}
+		
+		/*h.grow(Compass.NW,true);
 		h.grow(Compass.SW,true);
 		h.grow(Compass.S,true);
 		h.grow(Compass.S,true);
 		h.grow(Compass.NE,true);
-		h.grow(Compass.SE,true);
+		h.grow(Compass.SE,true);*/
 		
 		h.connectAll();
 		
