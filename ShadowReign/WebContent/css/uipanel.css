@@ -1,0 +1,35 @@
+@CHARSET "UTF-8";
+
+body {
+	overflow: hidden;
+	background-image: url("../img/fine-grain.png");
+}
+
+.shadowui {
+	display: grid;
+	grid-template-columns: 90px 300px 60px auto;
+	width: 100vw;
+	height: 100vh;
+	border: thin;
+}
+
+.uipanel {
+	grid-column-start: 1;
+	grid-column-end: 4;
+	grid-row-start: 1;
+	grid-row-end: 2;
+}
+
+.map {
+	grid-column-start: 5;
+	grid-column-end: 4;
+	grid-row-start: 1;
+	grid-row-end: 2;
+}
+
+#gridframe {
+	height: 98%;
+	width: 98%;
+	border: inset;
+}
+

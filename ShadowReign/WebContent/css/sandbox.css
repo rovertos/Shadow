@@ -1,0 +1,134 @@
+@CHARSET "UTF-8";
+
+body {
+	font-family: monospace;	
+}
+
+#map {
+	position:absolute;	
+}
+
+.kdom {
+	width: 150px;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	padding: 5px;
+	grid-column-gap: 5px;
+	grid-auto-rows: minmax(50px, auto);
+	border-style: solid;
+	border-color: black;
+	font-size: 4ex;
+	font-weight: bolder;
+	background-color: white;
+	position:absolute; 
+	z-index: 100;
+}
+
+.kd {text-align: center; cursor: pointer;}
+.k0 {background-color: silver; color: black;}
+.kd1 {grid-column-start:1; grid-column-end:2; grid-row-start:1; grid-row-end:2;}
+.kd2 {grid-column-start:2; grid-column-end:3; grid-row-start:1; grid-row-end:2;}
+.kd3 {grid-column-start:3; grid-column-end:4; grid-row-start:1; grid-row-end:2;}
+.pup {background-image: url("../img/pawn.png"); background-position: right bottom; background-repeat: no-repeat;}
+
+.k1.dO, .k1.dN, .k1.dE {background-color: #333399; color: white;}
+.k1.dI, .k1.dS, .k1.dW {background-color: #800000; color: white;}
+
+#ONW {left: 0px; top: 0px}
+#ONE {left: 800px; top: 0px}
+#INW {left: 200px; top: 200px}
+#INE {left: 600px; top: 200px}
+#ISW {left: 200px; top: 500px}
+#ISE {left: 600px; top: 500px}
+#OSW {left: 0px; top: 700px}
+#OSE {left: 800px; top: 700px}
+
+.con {position:absolute; z-index: 50; cursor: pointer;}
+
+.con.str.c6 > line{stroke-width:20px; stroke: green}
+.con.str.c4 > line{stroke-width:15px; stroke: green}
+.con.str.c3 > line{stroke-width:10px; stroke: green;}
+.con.str.c2 > line{stroke-width:10px; stroke: green; stroke-dasharray: 4;}
+.con.str.c1 > line{stroke-width:10px; stroke: green; stroke-dasharray: 4;}
+.con.str.c0 > line{stroke-width:1px; stroke: black; stroke-dasharray: 4;}
+.con.str.c-1 > line{stroke-width:10px; stroke: red; stroke-dasharray: 4;}
+.con.str.c-4 > line{stroke-width:20px; stroke: red}
+
+.con.dia.c6 > line{stroke-width:10px; stroke: green}
+.con.dia.c4 > line{stroke-width:8px; stroke: green}
+.con.dia.c3 > line{stroke-width:5px; stroke: green;}
+.con.dia.c2 > line{stroke-width:5px; stroke: green; stroke-dasharray: 4;}
+.con.dia.c1 > line{stroke-width:5px; stroke: green; stroke-dasharray: 4;}
+.con.dia.c0 > line{stroke-width:1px; stroke: black; stroke-dasharray: 4;}
+.con.dia.c-1 > line{stroke-width:5px; stroke: red; stroke-dasharray: 4;}
+.con.dia.c-4 > line{stroke-width:10px; stroke: red}
+
+.con.att > line{stroke: red !important}
+.con.att > line{stroke: red !important}
+
+#ONW-OSW {left: 55px; top: 50px}
+#ONE-OSE {left: 905px; top: 50px}
+#INW-ISW {left: 255px; top: 250px}
+#INE-ISE {left: 705px; top: 250px}
+#ONW-ONE {left: 150px; top: 30px}
+#OSW-OSE {left: 150px; top: 730px}
+#INW-INE {left: 355px; top: 230px}
+#ISW-ISE {left: 355px; top: 530px}
+#ONW-INW {left: 100px; top: 55px}
+#ONE-INE {left: 710px; top: 55px}
+#OSW-ISW {left: 110px; top: 555px}
+#OSE-ISE {left: 705px; top: 555px}
+
+.force {position:absolute; z-index:105; font-size:4ex; font-weight:bolder; width:30px; height:30px; 
+border-style:solid; border-color:black; background-color:white; padding: 5px; text-align: center; cursor: pointer}
+#fONW-INW {left: 115px; top: 70px}
+#fONW-OSW {left: 35px; top: 70px}
+#fONW-ONE {left: 170px; top: 10px}
+#fONE-INE {left: 805px; top: 70px}
+#fONE-OSE {left: 885px; top: 70px}
+#fONE-ONW {left: 750px; top: 10px}
+#fOSW-ISW {left: 115px; top: 650px}
+#fOSW-ONW {left: 35px; top: 650px}
+#fOSW-OSE {left: 170px; top: 710px}
+#fOSE-ISE {left: 805px; top: 650px}
+#fOSE-OSW {left: 750px; top: 710px}
+#fOSE-ONE {left: 885px; top: 650px}
+#fINW-ONW {left: 205px; top: 150px}
+#fINW-INE {left: 370px; top: 210px}
+#fINW-ISW {left: 235px; top: 270px}
+#fINE-ONE {left: 715px; top: 150px}
+#fINE-INW {left: 550px; top: 210px}
+#fINE-ISE {left: 685px; top: 270px}
+#fISW-OSW {left: 205px; top: 570px}
+#fISW-ISE {left: 370px; top: 510px}
+#fISW-INW {left: 235px; top: 450px}
+#fISE-OSE {left: 715px; top: 570px}
+#fISE-INE {left: 685px; top: 450px}
+#fISE-ISW {left: 550px; top: 510px}
+
+.attack {position:absolute; z-index:95;}
+.attack polygon {fill:red; stroke:red; stroke-width:2}
+#aONW-ONE {left: 215px; top: 10px; height: 46px; width: 46px}
+#aINW-INE {left: 415px; top: 210px; height: 46px; width: 46px}
+#aISW-ISE {left: 415px; top: 510px; height: 46px; width: 46px}
+#aOSW-OSE {left: 215px; top: 710px; height: 46px; width: 46px}
+#aONE-ONW {left: 705px; top: 10px; height: 46px; width: 46px}
+#aINE-INW {left: 505px; top: 210px; height: 46px; width: 46px}
+#aISE-ISW {left: 505px; top: 510px; height: 46px; width: 46px}
+#aOSE-OSW {left: 705px; top: 710px; height: 46px; width: 46px}
+#aONW-OSW {left: 35px; top: 115px; height: 46px; width: 46px}
+#aINW-ISW {left: 235px; top: 315px; height: 46px; width: 46px}
+#aINE-ISE {left: 685px; top: 315px; height: 46px; width: 46px}
+#aONE-OSE {left: 885px; top: 115px; height: 46px; width: 46px}
+#aOSW-ONW {left: 35px; top: 605px; height: 46px; width: 46px}
+#aISW-INW {left: 235px; top: 405px; height: 46px; width: 46px}
+#aISE-INE {left: 685px; top: 405px; height: 46px; width: 46px}
+#aOSE-ONE {left: 885px; top: 605px; height: 46px; width: 46px}
+#aONW-INW {left: 115px; top: 70px; height: 70px; width: 70px}
+#aISE-OSE {left: 715px; top: 570px; height: 70px; width: 70px}
+#aOSW-ISW {left: 115px; top: 626px; height: 70px; width: 70px}
+#aINE-ONE {left: 715px; top: 126px; height: 70px; width: 70px}
+#aINW-ONW {left: 181px; top: 126px; height: 70px; width: 70px}
+#aOSE-ISE {left: 781px; top: 626px; height: 70px; width: 70px}
+#aISW-OSW {left: 181px; top: 570px; height: 70px; width: 70px}
+#aONE-INE {left: 781px; top: 70px; height: 70px; width: 70px}
