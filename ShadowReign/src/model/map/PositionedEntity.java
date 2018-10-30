@@ -1,6 +1,6 @@
 package model.map;
 
-public class PositionedEntity {
+public class PositionedEntity implements Comparable<PositionedEntity> {
 
 	public int row;
 	
@@ -16,8 +16,23 @@ public class PositionedEntity {
 	
 	@Override
 	public String toString(){
+		
 		return "["+this.row+","+this.col+"]";
+		
 	}
+	
+	@Override
+	public int compareTo(PositionedEntity o) {
+		
+		if (row == o.row)
+		
+			return col - ((PositionedEntity)o).col;
+		
+		else
+			
+			return row - ((PositionedEntity)o).row;
+		
+	}	
 	
 	@Override
 	public boolean equals(Object o){

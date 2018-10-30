@@ -1,8 +1,7 @@
 package model.map;
 
 import java.util.ArrayList;
-
-import model.map.ExpandableLine.LineEntity;
+import java.util.Collections;
 
 public class Hive extends ExpandableMap {
 
@@ -32,11 +31,9 @@ public class Hive extends ExpandableMap {
 	
 	public void grow(Compass dir, boolean moveAnchor){
 		
-		int dirindex = Hex.sides.indexOf(dir);
+		int drow = diffsDoubleHeight[dir.ordinal()][0];
 		
-		int drow = diffsDoubleHeight[dirindex][0];
-		
-		int dcol = diffsDoubleHeight[dirindex][1];
+		int dcol = diffsDoubleHeight[dir.ordinal()][1];
 		
 		Hex newHex = new Hex(anchorR+drow, anchorC+dcol);
 		
@@ -52,54 +49,68 @@ public class Hive extends ExpandableMap {
 		
 	}
 	
-	public void put(PositionedEntity pe){
+	public void put(Hex hex){
 		
-		super.put(pe);
+		ExpandableLine rowline = putInLine(hex, rowlist, hex.row);
 		
-		putInLine(pe, diagsnwse, pe.row - pe.col);
+		Collections.sort(rowline.entitylist);		
 		
-		putInLine(pe, diagsnesw, pe.row + pe.col);
+		ExpandableLine colline = putInLine(hex, collist, hex.col);
 		
-	}
-	
-	public void connectAll(){
+		Collections.sort(colline.entitylist);
 		
-		for (ExpandableLine row: rowlist){			
-			Hex lastHex = (Hex)row.getFirst();			
-			for (int i=1; i<row.entitylist.size(); i++){				
-				Hex thisHex = (Hex)row.entitylist.get(i).pe;				
-				if (thisHex.row == lastHex.row + 1){					
-					thisHex.set(Compass.N, lastHex);
-					lastHex.set(Compass.S, thisHex);					
-				}				
-				lastHex = thisHex;				
-			}			
-		}
+		connect(hex, colline, Compass.N, Compass.S, 2);
+				
+		ExpandableLine dnwseline = putInLine(hex, diagsnwse, hex.row - hex.col);
 		
-		for (ExpandableLine row: diagsnwse){		
-			Hex lastHex = (Hex)row.getFirst();			
-			for (int i=1; i<row.entitylist.size(); i++){				
-				Hex thisHex = (Hex)row.entitylist.get(i).pe;				
-				if (thisHex.row == lastHex.row + 1){					
-					thisHex.set(Compass.NW, lastHex);
-					lastHex.set(Compass.SE, thisHex);					
-				}				
-				lastHex = thisHex;
-			}			
-		}
+		Collections.sort(dnwseline.entitylist);
 		
-		for (ExpandableLine row: diagsnesw){		
-			Hex lastHex = (Hex)row.getFirst();			
-			for (int i=1; i<row.entitylist.size(); i++){				
-				Hex thisHex = (Hex)row.entitylist.get(i).pe;				
-				if (thisHex.row == lastHex.row + 1){					
-					thisHex.set(Compass.NE, lastHex);
-					lastHex.set(Compass.SW, thisHex);					
-				}				
-				lastHex = thisHex;
-			}			
-		}		
+		connect(hex, dnwseline, Compass.NW, Compass.SE, 1);
+		
+		ExpandableLine dneswline = putInLine(hex, diagsnesw, hex.row + hex.col);
+		
+		Collections.sort(dneswline.entitylist);
+		
+		connect(hex, dneswline, Compass.NE, Compass.SW, 1);
 		
 	}
 	
+	private void connect(Hex hex, ExpandableLine eline, Compass up, Compass down, int rowdiff){
+		
+		int peindex = eline.entitylist.indexOf(hex);
+		
+		if (eline.entitylist.size() > 1){
+		
+			if (peindex > 0){
+				
+				Hex previous = (Hex)eline.entitylist.get(peindex-1);
+				
+				if (previous.row + rowdiff == hex.row){
+				
+					hex.set(up, previous);
+					
+					previous.set(down, hex);
+				
+				}
+				
+			}
+			
+			if (peindex + 1 < eline.entitylist.size()){
+				
+				Hex next = (Hex)eline.entitylist.get(peindex+1);
+				
+				if (next.row == hex.row + rowdiff){
+				
+					hex.set(down, next);
+					
+					next.set(up, hex);
+				
+				}
+				
+			}
+		
+		}
+		
+	}
+		
 }

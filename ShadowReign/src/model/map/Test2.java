@@ -4,22 +4,31 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import util.Print;
 
-public class Test {
+public class Test2 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		Hive h = new Hive();
+		Hive h1 = new Hive();
 		
-		for (int i=0; i<400; i++){
-			
-			int randomNum = ThreadLocalRandom.current().nextInt(0, 6);
-			
-			h.grow(Compass.values()[randomNum],true);
-			
-		}
+		h1.grow(Compass.SE,true);
+		h1.grow(Compass.SE,true);
+		h1.grow(Compass.SE,true);
+		h1.grow(Compass.NE,true);
+		h1.grow(Compass.SE,true);
 		
-		print(h);		
+		print(h1);
+		
+		Hive h2 = new Hive();
+		
+		h2.grow(Compass.NW,true);
+		h2.grow(Compass.SW,true);
+		h2.grow(Compass.S,true);
+		h2.grow(Compass.S,true);
+		h2.grow(Compass.NE,true);
+		h2.grow(Compass.SE,true);
+		
+		print(h2);
 		
 	}
 	
@@ -39,7 +48,7 @@ public class Test {
 			System.out.print("col " + eline.index + ": ");			
 			for (PositionedEntity pe: eline.entitylist){				
 				System.out.print(pe + " ");				
-			}		
+			}			
 		}
 		System.out.println("");
 		
@@ -47,7 +56,7 @@ public class Test {
 			System.out.print("diag nwse " + eline.index + ": ");			
 			for (PositionedEntity pe: eline.entitylist){				
 				System.out.print(pe + " ");				
-			}		
+			}			
 		}		
 		System.out.println("");
 		
@@ -56,10 +65,9 @@ public class Test {
 			for (PositionedEntity pe: eline.entitylist){				
 				System.out.print(pe + " ");				
 			}
-		}
+		}		
 		System.out.println("");
 		
 	}
-	
 
 }

@@ -34,7 +34,7 @@ public class Print {
 				
 				String p = array[row][col] != null ? "O" : empty;
 				
-				if (col == 0) System.out.print(s(rowIndex,2) + "   ");
+				if (col == 0) System.out.print(s(rowIndex,3) + " ");
 				
 				System.out.print(p + "   ");
 				
@@ -47,9 +47,8 @@ public class Print {
 			rowIndex++;
 			
 		}
-		System.out.println("");	
 		
-		System.out.print("  ");		
+		System.out.print(" ");		
 		for (int i=colmin; i<=colmax; i++){
 			System.out.print(s(i,4));
 		}

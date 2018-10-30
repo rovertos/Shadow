@@ -11,13 +11,17 @@ public class ExpandableMap {
 	
 	public void put(PositionedEntity pe){
 		
-		putInLine(pe, rowlist, pe.row);
+		ExpandableLine rowline = putInLine(pe, rowlist, pe.row);
 		
-		putInLine(pe, collist, pe.col);
+		ExpandableLine colline = putInLine(pe, collist, pe.col);
+		
+		Collections.sort(rowline.entitylist);
+		
+		Collections.sort(colline.entitylist);
 		
 	}
 	
-	void putInLine(PositionedEntity pe, ArrayList<ExpandableLine> linelist, int index){
+	ExpandableLine putInLine(PositionedEntity pe, ArrayList<ExpandableLine> linelist, int index){
 		
 		ExpandableLine chosenline = null;
 		
@@ -44,6 +48,8 @@ public class ExpandableMap {
 		chosenline.put(pe);
 		
 		Collections.sort(linelist);	
+		
+		return chosenline;
 				
 	}
 	
@@ -79,9 +85,9 @@ public class ExpandableMap {
 		
 		for (ExpandableLine row: rowlist){
 			
-			for (ExpandableLine.LineEntity re: row.entitylist){
+			for (PositionedEntity pe: row.entitylist){
 				
-				array[re.pe.row - rowmin][re.pe.col - colmin] = re.pe;
+				array[pe.row - rowmin][pe.col - colmin] = pe;
 				
 			}
 			

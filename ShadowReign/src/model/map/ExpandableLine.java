@@ -5,7 +5,7 @@ import java.util.Collections;
 
 public class ExpandableLine implements Comparable<ExpandableLine> {
 
-	public ArrayList<LineEntity> entitylist = new ArrayList<LineEntity>();
+	public ArrayList<PositionedEntity> entitylist = new ArrayList<PositionedEntity>();
 	
 	public final int index;
 	
@@ -17,89 +17,45 @@ public class ExpandableLine implements Comparable<ExpandableLine> {
 	
 	public void put(PositionedEntity pe){
 		
-		LineEntity newLineEntity = new LineEntity(pe);
+		int entityindex = entitylist.indexOf(pe);
 		
-		int entityindex = entitylist.indexOf(newLineEntity);
-		
-		if (entityindex > -1){
+		if (entityindex > -1)
 			
-			entitylist.remove(entityindex);
+			entitylist.set(entityindex, pe);
 			
-			entitylist.add(entityindex, newLineEntity);
+		else
 			
-		} else {
-			
-			entitylist.add(newLineEntity);
-			
-			Collections.sort(entitylist);
-			
-		}
+			entitylist.add(pe);
 		
 	}
 	
 	public PositionedEntity getFirst(){
 		
-		return entitylist.get(0).pe;
+		return entitylist.get(0);
 		
 	}
 	
 	public PositionedEntity getLast(){
 		
-		return entitylist.get(entitylist.size()-1).pe;
+		return entitylist.get(entitylist.size()-1);
 		
 	}
 	
 	public PositionedEntity get(int col){
 		
-		for (LineEntity re: entitylist){
+		for (PositionedEntity pe: entitylist){
 			
-			if (re.pe.col == col)
+			if (pe.col == col)
 				
-				return re.pe;
+				return pe;
 			
-			else if (re.pe.col > col)
+			else if (pe.col > col)
 				
 				break;
 			
 		}
 		
 		return null;
-		
-	}
-		
-	class LineEntity implements Comparable<LineEntity> {
-		
-		protected final PositionedEntity pe;
-		
-		protected LineEntity(PositionedEntity pe){
-			
-			this.pe = pe;
-			
-		}
-		
-		@Override
-		public boolean equals(Object o){
-			
-			if (o instanceof LineEntity)
-				
-				return ((LineEntity)o).pe.equals(this.pe);
-			
-			return false;
-			
-		}		
-
-		@Override
-		public int compareTo(LineEntity o) {
-			
-			if (pe.row == o.pe.row)
-			
-				return pe.col - ((LineEntity)o).pe.col;
-			
-			else
-				
-				return pe.row - ((LineEntity)o).pe.row;
-			
-		}		
 		
 	}
 		
