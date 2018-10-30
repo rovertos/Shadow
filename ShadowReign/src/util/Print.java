@@ -1,13 +1,63 @@
 package util;
 
-import model.map.Compass;
-import model.map.ExpandableLine;
-import model.map.Hex;
-import model.map.Hive;
-import model.map.PositionedEntity;
+import model.expandable.Compass;
+import model.expandable.Hive;
+import model.expandable.PositionedEntity;
+import model.world.County;
+import model.world.Map;
 
 public class Print {
 
+	public static void map(Map map){
+				
+		for (int i=map.xmin; i<=map.xmax; i++){
+		
+			boolean ieven = i % 2 == 0;
+			
+			for (int j=map.ymin; j<=map.ymax; j++){
+		
+				boolean jeven = j % 2 == 0;
+				
+				if ((ieven && jeven) || (!ieven && !jeven)){
+					
+					if (map.areas[i][j] != null){
+						
+						if (map.areas[i][j] instanceof County){
+							
+							System.out.print("*");
+							
+						} else {
+							
+							System.out.print(" ");
+							
+						}
+						
+						System.out.print(s(map.areas[i][j].getCongestion(),4));
+						
+					} else {
+						
+						System.out.print(r("-",5));
+						
+					}
+					
+					
+				} else {
+					
+					System.out.print("     ");
+					
+				}
+				
+				System.out.print(r(" ",10));
+				
+			}
+			
+			System.out.println("");
+			
+		}		
+		
+	}
+	
+	
 	public static void hive(Hive hive){
 		
 		int rowmin = hive.getMostDistantIndex(Compass.N);

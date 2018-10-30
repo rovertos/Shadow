@@ -1,4 +1,4 @@
-package model.map;
+package model.expandable;
 
 import java.util.ArrayList;
 
