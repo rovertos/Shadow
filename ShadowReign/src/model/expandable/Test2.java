@@ -1,5 +1,9 @@
 package model.expandable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import util.Print;
@@ -9,7 +13,22 @@ public class Test2 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		Hive h1 = new Hive();
+		Hex[] test1 = {new Hex(1,1),new Hex(2,2),new Hex(3,3),new Hex(4,4),new Hex(5,5)};
+		
+		Hex[] test2 = test1.clone(); 
+		
+		//Collections.rotate(Arrays.asList(test1), -2);
+		Collections.shuffle(Arrays.asList(test1));
+		
+		for (Hex s: test1){
+			System.out.print(s + " ");		
+		}
+		System.out.println("");
+		for (Hex s: test2){
+			System.out.print(s + " ");			
+		}		
+				
+		/*Hive h1 = new Hive();
 		
 		h1.grow(Compass.SE,true);
 		h1.grow(Compass.SE,true);
@@ -28,45 +47,7 @@ public class Test2 {
 		h2.grow(Compass.NE,true);
 		h2.grow(Compass.SE,true);
 
-		print(h2);
-		
-	}
-	
-	private static void print(Hive h){
-		
-		Print.hive(h);
-		
-		for (ExpandableLine eline: h.rowlist){			
-			System.out.print("row " + eline.index + ": ");			
-			for (PositionedEntity pe: eline.entitylist){				
-				System.out.print(pe + " ");				
-			}			
-		}
-		System.out.println("");
-		
-		for (ExpandableLine eline: h.collist){			
-			System.out.print("col " + eline.index + ": ");			
-			for (PositionedEntity pe: eline.entitylist){				
-				System.out.print(pe + " ");				
-			}			
-		}
-		System.out.println("");
-		
-		for (ExpandableLine eline: h.diagsnwse){			
-			System.out.print("diag nwse " + eline.index + ": ");			
-			for (PositionedEntity pe: eline.entitylist){				
-				System.out.print(pe + " ");				
-			}			
-		}		
-		System.out.println("");
-		
-		for (ExpandableLine eline: h.diagsnesw){			
-			System.out.print("diag nesw " + eline.index + ": ");			
-			for (PositionedEntity pe: eline.entitylist){				
-				System.out.print(pe + " ");				
-			}
-		}		
-		System.out.println("");
+		print(h2);*/
 		
 	}
 

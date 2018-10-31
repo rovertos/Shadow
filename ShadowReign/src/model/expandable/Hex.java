@@ -1,21 +1,37 @@
 package model.expandable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Hex extends PositionedEntity {
 
-	private Hex[] bordering = new Hex[6];
+	private Hex[] outskirts = new Hex[6];
 	
-	public int borders(){
+	private boolean active;
+	
+	public int activeConnections(){
 		int b = 0;
-		for (Hex border: bordering){
-			if (border != null)
+		for (Hex connection: outskirts){
+			if (connection != null && connection.isActive())
 				b++;
 		}
 		return b;
 	}
 	
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
 	@Override
 	public String toString(){
-		return "[" + row + "," + col + ":" + borders() + "]";
+		if (isActive())
+			return "[" + row + "," + col + ": " + activeConnections() + "]";
+		else
+			return " " + row + "," + col + ": " + activeConnections() + " ";
 	}	
 
 	public Hex(int col, int row) {
@@ -23,15 +39,24 @@ public class Hex extends PositionedEntity {
 	}	
 	
 	public void set(Compass dir, Hex hex){
-		bordering[dir.ordinal()] = hex;
+		outskirts[dir.ordinal()] = hex;
 	}
 	
 	public Hex get(Compass dir){
-		return bordering[dir.ordinal()];
+		return outskirts[dir.ordinal()];
 	}
 	
-	public Hex[] getBordering(){
-		return bordering;
+	public Hex[] getOutskirts(){
+		return outskirts;
 	}
 	
+	public List<Hex> getConnections(boolean active){
+		List<Hex> connetions = new ArrayList<Hex>();
+		for (Hex hex: outskirts){
+			if (hex != null && (hex.isActive() == active))
+				connetions.add(hex);
+		}
+		return connetions;
+	}
+		
 }

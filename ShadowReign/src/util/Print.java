@@ -1,64 +1,24 @@
 package util;
 
 import model.expandable.Compass;
+import model.expandable.ExpandableLine;
+import model.expandable.Hex;
 import model.expandable.Hive;
 import model.expandable.PositionedEntity;
 import model.world.County;
 import model.world.Map;
 
 public class Print {
-
-	public static void map(Map map){
-				
-		for (int i=map.xmin; i<=map.xmax; i++){
-		
-			boolean ieven = i % 2 == 0;
-			
-			for (int j=map.ymin; j<=map.ymax; j++){
-		
-				boolean jeven = j % 2 == 0;
-				
-				if ((ieven && jeven) || (!ieven && !jeven)){
-					
-					if (map.areas[i][j] != null){
-						
-						if (map.areas[i][j] instanceof County){
-							
-							System.out.print("*");
-							
-						} else {
-							
-							System.out.print(" ");
-							
-						}
-						
-						System.out.print(s(map.areas[i][j].getCongestion(),4));
-						
-					} else {
-						
-						System.out.print(r("-",5));
-						
-					}
-					
-					
-				} else {
-					
-					System.out.print("     ");
-					
-				}
-				
-				System.out.print(r(" ",10));
-				
-			}
-			
-			System.out.println("");
-			
-		}		
-		
-	}
-	
 	
 	public static void hive(Hive hive){
+		hive(hive,false,false);
+	}
+	
+	public static void hive(Hive hive, boolean printlines){
+		hive(hive,printlines,false);
+	}	
+	
+	public static void hive(Hive hive, boolean printlines, boolean printInactives){
 		
 		int rowmin = hive.getMostDistantIndex(Compass.N);
 		int colmin = hive.getMostDistantIndex(Compass.W);
@@ -68,34 +28,30 @@ public class Print {
 
 		int rowIndex = rowmin;		
 		
-		System.out.println(r("=",6+(colmax-colmin)*4+1));
-		
-		for (int row=0; row<array.length; row++){
-			
+		System.out.println(r("=",6+(colmax-colmin)*4+1));		
+		for (int row=0; row<array.length; row++){			
 			boolean rowindexEven = rowIndex % 2 ==0;
-			
 			int colIndex = colmin;
-			
-			for (int col=0; col<array[row].length; col++){		
-				
-				boolean colindexEven = colIndex % 2 ==0;
-				
-				String empty = (rowindexEven && colindexEven || !rowindexEven && !colindexEven) ? "-" : " ";
-				
-				String p = array[row][col] != null ? "O" : empty;
-				
+			for (int col=0; col<array[row].length; col++){
 				if (col == 0) System.out.print(s(rowIndex,3) + " ");
 				
+				boolean colindexEven = colIndex % 2 ==0;
+				String empty = (rowindexEven && colindexEven || !rowindexEven && !colindexEven) ? "-" : " ";
+				String p = null;
+				if (array[row][col] != null){
+					if (array[row][col] instanceof Hex && ((Hex)array[row][col]).isActive()){
+						p = "O";						
+					} else {
+						p = printInactives ? "x" : "-";
+					}
+				} else {
+					p = empty;
+				}				
 				System.out.print(p + "   ");
-				
 				colIndex++;
-				
-			}
-			
+			}			
 			System.out.println("");
-			
 			rowIndex++;
-			
 		}
 		
 		System.out.print(" ");		
@@ -104,6 +60,28 @@ public class Print {
 		}
 		System.out.println("");
 		System.out.println(r("=",6+(colmax-colmin)*4+1));
+		
+		if (printlines){
+			for (ExpandableLine eline: hive.rowlist){			
+				Print.line(eline, printInactives);		
+			}
+			System.out.println("");
+		}
+		
+	}
+	
+	public static void line(ExpandableLine eline, boolean printInactives){
+		
+		System.out.print(s(eline.index,3) + ": ");
+		
+		for (PositionedEntity pe: eline.entitylist){
+			
+			if (pe instanceof Hex && (((Hex)pe).isActive() || printInactives))
+			
+				System.out.print(pe + " ");
+			
+		}
+		System.out.println("");
 		
 	}
 	

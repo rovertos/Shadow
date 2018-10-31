@@ -11,55 +11,30 @@ public class Test {
 		
 		Hive h = new Hive();
 		
-		for (int i=0; i<14; i++){
+		for (int i=0; i<40; i++){
 			
 			int randomNum = ThreadLocalRandom.current().nextInt(0, 6);
 			
-			h.grow(Compass.values()[randomNum],1,true);
+			Compass rnd = Compass.values()[randomNum];
+			
+			boolean ok = h.grow(Compass.values()[randomNum],2,4,false);
+			
+			if (!ok){
+				
+				System.out.println("Deadend at iteration " + i + " going " + rnd);
+				
+				break;
+				
+			}
+			
+			System.out.print(h.getAnchor() + " ");
 			
 		}
 		
-		print(h);		
+		System.out.println("");
+		
+		Print.hive(h,true);
 		
 	}
 	
-	private static void print(Hive h){
-		
-		Print.hive(h);
-		
-		for (ExpandableLine eline: h.rowlist){			
-			System.out.print("row " + eline.index + ": ");			
-			for (PositionedEntity pe: eline.entitylist){				
-				System.out.print(pe + " ");				
-			}			
-		}
-		System.out.println("");
-		
-		for (ExpandableLine eline: h.collist){			
-			System.out.print("col " + eline.index + ": ");			
-			for (PositionedEntity pe: eline.entitylist){				
-				System.out.print(pe + " ");				
-			}		
-		}
-		System.out.println("");
-		
-		for (ExpandableLine eline: h.diagsnwse){			
-			System.out.print("diag nwse " + eline.index + ": ");			
-			for (PositionedEntity pe: eline.entitylist){				
-				System.out.print(pe + " ");				
-			}		
-		}		
-		System.out.println("");
-		
-		for (ExpandableLine eline: h.diagsnesw){			
-			System.out.print("diag nesw " + eline.index + ": ");			
-			for (PositionedEntity pe: eline.entitylist){				
-				System.out.print(pe + " ");				
-			}
-		}
-		System.out.println("");
-		
-	}
-	
-
 }
