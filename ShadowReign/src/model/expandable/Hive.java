@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Hive extends ExpandableMap {
 
@@ -11,11 +12,11 @@ public class Hive extends ExpandableMap {
 		
 	// double-height
 	public static int[][] diffsDoubleHeight = {{-2,0},{-1,1},{1,1},{2,0},{1,-1},{-1,-1}};
-	//public static int[][] diffsCubic = {{-1,0},{-1,1},{0,1},{1,0},{1,-1},{0,-1}};
 	
 	public List<ExpandableLine> diagsnwse = new ArrayList<ExpandableLine>();
-	
 	public List<ExpandableLine> diagsnesw = new ArrayList<ExpandableLine>();
+	
+	public List<Hex> growPath = new ArrayList<Hex>();
 	
 	public Hive(){
 
@@ -23,17 +24,17 @@ public class Hive extends ExpandableMap {
 		
 		put(anchor);
 		
-		surround(anchor);
-		
-		anchor.setActive(true);
+		surroundAndActivate(anchor);
 		
 	}	
-		
+	
 	public boolean grow(Compass dir, int minBorders, int maxBorders, boolean rndEnabled){
 		
 		ArrayList<Hex> outskirts = new ArrayList<Hex>(Arrays.asList(anchor.getOutskirts().clone()));
 		
 		Collections.rotate(outskirts, -dir.ordinal());
+		Collections.swap(outskirts, 2, 5);
+		Collections.swap(outskirts, 3, 5);
 		
 		if (isCandidateForActivation(outskirts.get(0), minBorders, maxBorders)){
 			
@@ -65,20 +66,36 @@ public class Hive extends ExpandableMap {
 					
 				}
 								
-			}
-			
-			System.out.println("Checked " + outskirts.size() + " but no candidates!");			
+			}		
 			
 		}
 		
-		return false;
+		if (growPath.size() > 1){
+		
+			anchor.setDeadend(true);
+			
+			anchor.setActive(false);
+			
+			growPath.remove(growPath.size()-1);
+			
+			anchor = growPath.get(growPath.size()-1);
+			
+			//System.out.println("backtracking to " + anchor);
+			
+			return grow(dir, minBorders, maxBorders, rndEnabled);
+		
+		} else {
+			
+			return false;
+			
+		}
 		
 	}
 	
 	
 	private boolean isCandidateForActivation(Hex hex, int minBorders, int maxBorders){
 		
-		if (hex == null || hex.isActive())
+		if (hex == null || hex.isActive() || hex.isDeadend())
 			
 			return false;
 		
@@ -129,37 +146,6 @@ public class Hive extends ExpandableMap {
 				return connectsToALoner;
 				
 			}
-						
-			/*if (loneConnections.size() > 0){
-				
-				boolean connectsToALoner = false;
-				
-				outer:
-				for (Hex inactive: inactiveConnections){
-					
-					List<Hex> aroundCons = inactive.getConnections(true);
-					
-					for (Hex loner: loneConnections){
-						
-						if (aroundCons.contains(loner)){
-							
-							connectsToALoner = true;
-															
-							break outer;
-							
-						}
-						
-					}
-					
-				}
-				
-				if (!connectsToALoner){						
-					
-					return false;
-					
-				}				
-				
-			}*/
 			
 		}
 		
@@ -181,6 +167,7 @@ public class Hive extends ExpandableMap {
 	
 	private void surroundAndActivate(Hex hex){
 		surround(hex);
+		growPath.add(hex);		
 		hex.setActive(true);
 	}	
 	
@@ -210,16 +197,12 @@ public class Hive extends ExpandableMap {
 	}
 	
 	public void put(Hex hex){
-		ExpandableLine rowline = putInLine(hex, rowlist, hex.row);
-		Collections.sort(rowline.entitylist);		
+		putInLine(hex, rowlist, hex.row);
 		ExpandableLine colline = putInLine(hex, collist, hex.col);
-		Collections.sort(colline.entitylist);
 		connect(hex, colline, Compass.N, Compass.S, 2);
 		ExpandableLine dnwseline = putInLine(hex, diagsnwse, hex.row - hex.col);
-		Collections.sort(dnwseline.entitylist);
 		connect(hex, dnwseline, Compass.NW, Compass.SE, 1);
 		ExpandableLine dneswline = putInLine(hex, diagsnesw, hex.row + hex.col);
-		Collections.sort(dneswline.entitylist);
 		connect(hex, dneswline, Compass.NE, Compass.SW, 1);
 	}
 	
@@ -242,29 +225,5 @@ public class Hive extends ExpandableMap {
 			}
 		}
 	}
-	
-	/*public void calculateCongestion(Hex center, int congDepth, int congWidth){
-		List<Hex> surroundings = getSurroundings(center, congWidth, new ArrayList<Hex>());
-		for (Hex around: surroundings){
-			around.resetCongestion();
-			int cong2 = 0;
-			for (Hex further: around.getOutskirts()){
-				if (further != null)
-					cong2 += further.getCongDepth1();
-			}
-			around.addCongestion(cong2);
-		}
-		for (int i=0; i<congDepth; i++){
-			for (Hex hex: surroundings){
-				Hex[] outskirts = hex.getOutskirts();
-				int congi = 0;
-				for (Hex around: outskirts){
-					if (around != null)
-						congi += around.getCongestionAtDepth(i);
-				}
-				hex.addCongestion(congi);
-			}
-		}		
-	}*/	
 		
 }

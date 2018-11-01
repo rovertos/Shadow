@@ -15,7 +15,7 @@ public enum Compass {
 	private final int index;
 	
 	Compass(int index){		
-		this.index = index;		
+		this.index = index;
 	}
 	
 	public Compass getNextCW(){		
